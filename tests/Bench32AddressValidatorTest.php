@@ -4,14 +4,8 @@ require_once 'src/AddressValidator.php';
 
 use \LinusU\Bitcoin\AddressValidator;
 
-class AddressValidatorTest extends \PHPUnit\Framework\TestCase {
+class Bench32AddressValidatorTest extends \PHPUnit\Framework\TestCase {
 
-    /*
-
-    Data from the official bitcoin client:
-    https://github.com/bitcoin/bitcoin/tree/master/src/test/data
-
-    */
 
     protected $invalidAddrs = [
         '',
@@ -63,10 +57,14 @@ class AddressValidatorTest extends \PHPUnit\Framework\TestCase {
         '2TAq2tuN6x6m233bpT7yqdYQPELdTDJn1eU',
         'ntEtnnGhqPii4joABvBtSEJG6BxjT2tUZqE8PcVYgk3RHpgxgHDCQxNbLJf7ardf1dDk2oCQ7Cf',
         'Ky1YjoZNgQ196HJV3HpdkecfhRBmRZdMJk89Hi5KGfpfPwS2bUbfd',
+        'bc1q48yslkldy46s0f0gwrp9npy972yxx2gwherw6',
+        'bc1q48yslkldy46s0f0gwrp9npy972yxx2gwherw6x',
+        'Xc1q48yslkldy46s0f0gwrp9npy972yxx2gwherw69',
         '2A1q1YsMZowabbvta7kTy2Fd6qN4r5ZCeG3qLpvZBMzCixMUdkN2Y4dHB1wPsZAeVXUGD83MfRED'
     ];
 
     protected $validAddrs = [
+        'bc1q48yslkldy46s0f0gwrp9npy972yxx2gwherw69',
         '1AGNa15ZQXAZUgFiqJ2i7Z2DPU2J6hW62i',
         '1Ax4gZtb7gAit2TivwejZHYtNNLT18PUXJ',
         '1C5bSj1iEGUgSTbziymG7Cn18ENQuT36vv',
@@ -76,15 +74,13 @@ class AddressValidatorTest extends \PHPUnit\Framework\TestCase {
         '13p1ijLwsnrcuyqcTvJXkq2ASdXqcnEBLE'
     ];
 
-    function testInvalidAddrsMainnet() {
-        foreach ($this->invalidAddrs as $addr) {
-            $this->assertEquals(false, AddressValidator::isValid($addr), 'Should be invalid: ' . $addr);
-        }
-    }
 
-    function testValidAddrsMainnet() {
+    public function testBench32Address() {
         foreach ($this->validAddrs as $addr) {
-            $this->assertEquals(true, AddressValidator::isValid($addr), 'Should be valid: ' . $addr);
+             $this->assertTrue( AddressValidator::isValid($addr), 'Should be valid: ' . $addr);
+        }
+        foreach ($this->invalidAddrs as $addr) {
+             $this->assertFalse( AddressValidator::isValid($addr), 'Should be invalid: ' . $addr);
         }
     }
 }
